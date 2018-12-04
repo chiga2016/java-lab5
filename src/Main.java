@@ -11,8 +11,10 @@ public static void main (String[] args ) throws SQLException {
 //   db.viewGroups(conn);
 //   db.viewItems(conn);
     db.viewItems2(conn);
-    db.getGroupID("ТЕЛЕВИЗОРЫ", conn).stream()
-            .forEach(p-> System.out.println(p));
+    System.out.println(db.getGroupID("Телевизоры", conn));
+
+    db.viewItemsInGroup("Телефоны",conn);
+
 
     //System.out.println(db.getGroupID("ТЕЛЕВИЗОРЫ", conn).toString());
 

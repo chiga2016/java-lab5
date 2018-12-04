@@ -103,26 +103,52 @@ public class DBTester {
     }
 
 
-    ArrayList<Integer> getGroupID(String key, Connection connection) throws SQLException {
-        ArrayList<Integer> arl = new ArrayList<Integer>();
+    int getGroupID(String key, Connection connection) throws SQLException {
+        int tmpInt=0;
         PreparedStatement stmt=null;
         ResultSet rst=null;
         final String sql = "select id from itemgroup where title =?"; //select id from itemgroup where title = 'ТЕЛЕВИЗОРЫ'
-
         stmt = connection.prepareStatement(sql);
-        stmt.setString(1,key);
-
+        stmt.setString(1,key.toUpperCase());
         rst = stmt.executeQuery();
-
         while (rst.next()) {
-            arl.add(rst.getRow());
-           // System.out.println(rst.getRow());
+            tmpInt = rst.getInt(1);
+        }
+        return tmpInt;
+    }
+
+    void viewItemsInGroup (int groupid, Connection connection) throws SQLException {
+        PreparedStatement stmt=null;
+        ResultSet rst=null;
+        final String sql = "select it.* from itemgroup gr, item it where it.groupid = gr.id  and gr.id=?"; //select id from itemgroup where title = 'ТЕЛЕВИЗОРЫ'
+        stmt = connection.prepareStatement(sql);
+        stmt.setInt(1,groupid);
+        rst = stmt.executeQuery();
+        while (rst.next()){
+            System.out.println(rst.getString(2));
         }
 
+    }
+    void viewItemsInGroup (String groupname, Connection connection) throws SQLException {
+        PreparedStatement stmt=null;
+        ResultSet rst=null;
+        final String sql = "select it.* from itemgroup gr, item it where it.groupid = gr.id  and gr.title =?"; //select id from itemgroup where title = 'ТЕЛЕВИЗОРЫ'
+        stmt = connection.prepareStatement(sql);
+        stmt.setString(1,groupname.toUpperCase());
+        rst = stmt.executeQuery();
+        while (rst.next()){
+            System.out.println(rst.getString(2));
+        }
 
-        //stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        //rst = stmt.executeQuery("SELECT * FROM item");
-        return arl;
+    }
+
+    void addItemToGroup(String itemName, String groupName) {
+        String sql1 = "insert into admin.item (groupid,title) values (6,'Xiaomi');";
+        String sql2 = "insert into admin.itemgroup (title) values ('Планшеты');";
+    }
+
+    void removeItemFromGroup(String itemName, String groupName){
+
     }
 
 }
