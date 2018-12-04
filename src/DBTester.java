@@ -119,6 +119,7 @@ public class DBTester {
            // System.out.println(rst.getRow());
         }
 
+
         //stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         //rst = stmt.executeQuery("SELECT * FROM item");
         return arl;
