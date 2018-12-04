@@ -15,6 +15,7 @@ public static void main (String[] args ) throws SQLException {
             .forEach(p-> System.out.println(p));
 
 
+
     //System.out.println(db.getGroupID("ТЕЛЕВИЗОРЫ", conn).toString());
 
 //    ItemData itmd = new ItemData(1,2,"Компы");
