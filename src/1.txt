@@ -1,0 +1,10 @@
+                //System.out.println("Ничего не нашлось " + rsltId);
+                // делаем инсерт сначала группы потом итема
+                //            String sql1 = "insert into admin.itemgroup (title) values ('Планшеты');";
+                //            String sql2 = "insert into admin.item (groupid,title) values (6,'Xiaomi');";
+
+            } else {
+                //return idgroup;
+                // группу не добавляем, делаем инсерт итема
+                //System.out.println("Нашлась строка " + rsltId);
+                //String sql2 = "insert into admin.item (groupid,title) values (6,'Xiaomi');";

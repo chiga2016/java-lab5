@@ -139,16 +139,47 @@ public class DBTester {
         while (rst.next()){
             System.out.println(rst.getString(2));
         }
-
     }
 
-    void addItemToGroup(String itemName, String groupName) {
-        String sql1 = "insert into admin.item (groupid,title) values (6,'Xiaomi');";
-        String sql2 = "insert into admin.itemgroup (title) values ('Планшеты');";
+    int AddGroup(String groupName, Connection connection) throws SQLException {
+        int idgroup = 0;
+        PreparedStatement stmt = null;
+        ResultSet rst = null;
+        idgroup = getGroupID(groupName, connection);
+        while (idgroup == 0) {
+            String sql1 = "INSERT INTO ADMIN.ITEMGROUP(TITLE) VALUES(?)";
+            stmt = connection.prepareStatement(sql1);
+            stmt.setString(1, groupName.toUpperCase());
+            stmt.execute();
+            connection.commit();
+            idgroup = getGroupID(groupName, connection);
+            //System.out.println(idgroup);
+        }
+        return idgroup;
     }
 
-    void removeItemFromGroup(String itemName, String groupName){
+    void addItemToGroup(String itemName, String groupName, Connection connection) throws SQLException {
+        PreparedStatement stmt = null;
+        ResultSet rst = null;
+        int idgroup = AddGroup(groupName, connection);
+        String sql2 = "insert into admin.item (groupid,title) values (?,?)";
+        stmt = connection.prepareStatement(sql2);
+        stmt.setInt(1,idgroup);
+        stmt.setString(2,itemName);
+        stmt.execute();
+        connection.commit();
+    }
 
+    void removeItemFromGroup(String itemName, String groupName, Connection connection) throws SQLException {
+        PreparedStatement stmt = null;
+        ResultSet rst = null;
+        int idgroup = getGroupID(groupName, connection);
+        System.out.println(idgroup);
+        String sql2 = "delete from item where title=? and groupid=?";
+        stmt.setString(1,itemName);
+        stmt.setInt(2,idgroup);
+        stmt.execute();
+        connection.commit();
     }
 
 }
