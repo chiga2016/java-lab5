@@ -16,8 +16,9 @@ public static void main (String[] args ) throws SQLException {
    // db.viewItemsInGroup("Телефоны",conn);
     //System.out.println(db.AddGroup("Электроинструмент, conn));
     //db.addItemToGroup("Xiaomi1","Телефоны",conn);
-
-    db.removeItemFromGroup("Xiaomi1","Телефоны",conn);
+    //db.addItemToGroup("HTC","Телефоны",conn);
+    //db.removeItemFromGroup("HTC","Телефоны",conn);
+    db.readFile("itemAndGroup.txt",conn);
     db.closeConn(conn);
 
     //System.out.println(db.getGroupID("ТЕЛЕВИЗОРЫ", conn).toString());

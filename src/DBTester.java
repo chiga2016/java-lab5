@@ -1,10 +1,13 @@
 import com.sun.xml.internal.bind.v2.model.core.ID;
 
+import java.io.*;
 import java.lang.reflect.Array;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DBTester {
     public Connection connectToDB () {
@@ -174,12 +177,64 @@ public class DBTester {
         PreparedStatement stmt = null;
         ResultSet rst = null;
         int idgroup = getGroupID(groupName, connection);
+        String sql3 = "delete from admin.item where title=? and groupid=?";
+        stmt = connection.prepareStatement(sql3);
+        System.out.println(itemName);
         System.out.println(idgroup);
-        String sql2 = "delete from item where title=? and groupid=?";
+
         stmt.setString(1,itemName);
         stmt.setInt(2,idgroup);
-        stmt.execute();
+        //System.out.println(sql3);
+        System.out.println(stmt.execute());
+        //System.out.println(rst.getString(1));
         connection.commit();
     }
+
+    public void readFile(String fileName,Connection connection) {
+        int lineCount = 0;
+        String item=null;
+        String group=null;
+        String operator=null;
+        Pattern itemAndGroup = Pattern.compile("([А-Яа-яЕё]+)([+-])([А-Яа-яЕё]+)");
+        try (
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(
+                                new FileInputStream(fileName)
+                                , "cp1251")
+                        // читаем файл из двоичного потока
+                        // в виде текста с нужной кодировкой
+                )
+        ) {
+            String s;
+            while ((s = br.readLine()) != null) { // пока readLine() возвращает не null
+                Matcher m = itemAndGroup.matcher(s);
+                if (!m.find()) {
+                    System.out.println("error in line:\n"+s);System.exit(1);
+                    continue;
+                }
+                group = m.group(1);
+                operator = m.group(2);
+                item = m.group(3);
+                switch (operator){
+                    case "+": addItemToGroup(item,group,connection);
+                    break;
+                    case "-": removeItemFromGroup(item,group,connection);
+                    break;
+                }
+
+
+                System.out.println(group + " " + operator + " " + item + " ");
+
+            }
+        } catch (IOException | SQLException ex) {
+            System.out.println("Reading error in line " + lineCount);
+            ex.printStackTrace();
+        }
+
+    }
+
+
+
+
 
 }
