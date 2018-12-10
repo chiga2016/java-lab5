@@ -8,3 +8,61 @@
                 // группу не добавляем, делаем инсерт итема
                 //System.out.println("Нашлась строка " + rsltId);
                 //String sql2 = "insert into admin.item (groupid,title) values (6,'Xiaomi');";
+
+
+    void viewItems2(Connection connection) throws SQLException {
+        Statement stmt = null;
+        ResultSet rst = null;
+        ItemData itemdata = new ItemData();
+        stmt = connection.createStatement();
+        rst = stmt.executeQuery("SELECT * FROM item");
+        for (int i = 1; i <= rst.getMetaData().getColumnCount(); i++) {
+            System.out.print(rst.getMetaData().getColumnName(i) + " ");
+        }
+        System.out.println();
+
+        while (rst.next()) {
+            for (int i = 1; i <= rst.getMetaData().getColumnCount(); i++) {
+                //System.out.print(rst.getString(rst.getMetaData().getColumnLabel(i)) +" ");
+                // System.out.println();
+                itemdata.setItemMap(rst.getInt("id"), rst.getInt("groupid"), rst.getString("title"));
+            }
+            //System.out.println();
+        }
+        itemdata.getItemMap().entrySet().stream()
+                .forEach(p -> System.out.println(p));
+    }
+
+
+//////////////
+
+//            Iterator<String> iteratorRemove = removeGroups.iterator();
+//            while (iteratorRemove.hasNext()) {
+//
+//                String removegroup = iteratorRemove.next();
+//                if (removegroup.equals(group)) {
+//                    System.out.println("Удалим: " + removegroup);
+//                    rst.deleteRow();
+//                }
+//            }
+
+/////////////////////
+
+//            Iterator<String> iteratorAdd = addGroups.iterator();
+//            while (iteratorAdd.hasNext()) {
+//                String addGroup1 = iteratorAdd.next();
+//                if (addGroup1.equals(group)) {
+//                    iteratorAdd.remove();
+//                    //addGroups.remove(addGroup1);
+//                }
+//            }
+
+////////////////
+
+//            Statement stmt = null;
+//            ResultSet rst = null;
+//            String sql = "select * from itemgroup";
+//            stmt = connection.createStatement(
+//                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+//                    ResultSet.CONCUR_UPDATABLE);
+//            rst = stmt.executeQuery(sql);
