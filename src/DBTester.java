@@ -112,6 +112,7 @@ public class DBTester {
         }
     }
 
+
     void viewItemsInGroup(String groupname, Connection connection) throws SQLException {
         try (
                 PreparedStatement stmt = connection.prepareStatement("select it.* from itemgroup gr left join item it on it.groupid = gr.id  where gr.title =?");
