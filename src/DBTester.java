@@ -298,6 +298,7 @@ public class DBTester {
                 ResultSet rst = stmt.executeQuery("SELECT * FROM itemgroup");
                 )
         {
+            connection.setAutoCommit(false);
             //boolean resultat = false;
             // Пройдемся по результсету
             while (rst.next()) {
@@ -329,6 +330,9 @@ public class DBTester {
              System.out.println("откат всех изменений");
             connection.rollback();
             e.printStackTrace();
+        }
+        finally {
+            connection.setAutoCommit(true);
         }
 
 

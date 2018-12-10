@@ -19,10 +19,10 @@ public static void main (String[] args ) throws SQLException {
    // db.addItemToGroup("fff","Телефоны",conn);
     //db.removeItemFromGroup("HTC","Телефоны",conn);
    // db.readFile("itemAndGroup.txt",conn);
-//    db.readGroups("groups.txt");
-//    db.addAndRemoveGroup(conn);
+    db.readGroups("groups.txt");
+    db.addAndRemoveGroup(conn);
 
-    db.viewItemsInGroup("ТЕЛЕФОНЫ",conn);
+ //   db.viewItemsInGroup("ТЕЛЕФОНЫ",conn);
     db.closeConn(conn);
 
     //System.out.println(db.getGroupID("ТЕЛЕВИЗОРЫ", conn).toString());
